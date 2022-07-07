@@ -53,7 +53,9 @@ return (
 ### Transition animation
 Live [demo](https://codesandbox.io/s/anima-js-transition-animation-hhhnf2)
 ```jsx
-<anima.h1 className="title" in={isVisible}>Hello world</anima.h1>
+<anima.h1 className="title" in={isVisible}>
+  Hello world
+</anima.h1>
 ```
 ```css
 /* enter state */
@@ -125,4 +127,45 @@ Live [demo](https://codesandbox.io/s/anima-js-transition-group-memsdx)
   opacity: 0;
   transition: opacity .25s;
 }
+```
+
+## Callbacks
+
+### onAnimaStart
+
+A callback that will fire when an animation starts.
+
+```tsx
+onAnimaStart: (node: HTMLElement, done: Function) => void
+```
+
+### onAnimaDone
+
+A callback that will fire when an animation has finished.
+
+```tsx
+onAnimaDone: (in: boolean) => void
+```
+
+### onAnimaTransition
+
+A callback that fires before an animation starts.<br />
+If you want to use custom animation you need this method.
+
+```tsx
+onAnimaTransition: (in: boolean, node: HTMLElement, done: Function) => void
+```
+
+## Custom Components
+
+Sometimes you need to use custom components.
+
+```jsx
+const MyComponent = ({ children }) => (
+  <h1>{children}<h1>
+)
+
+<anima.custom className="title" component={MyComponent}>
+  Hello world
+</anima.custom>
 ```
