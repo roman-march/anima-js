@@ -50,7 +50,25 @@ return (
 
 ## Usage
 
-### Transition animation
+```jsx
+import useAnima from "anima-js";
+
+const App = ({ isVisible }) => {
+  const { anima } = useAnima();
+  
+  return (
+    <anima.h1 className="title" in={isVisible}>
+      Hello world
+    </anima.h1>
+  )
+}
+```
+
+## Transitions
+
+As in the library React-Transition-Group, there are 3 type of transitions
+
+### Simple Transition
 Live [demo](https://codesandbox.io/s/anima-js-transition-animation-hhhnf2)
 ```jsx
 <anima.h1 className="title" in={isVisible}>
