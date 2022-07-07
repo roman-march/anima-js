@@ -16,7 +16,7 @@ yarn add anima-js
 
 ## Differences
 
-Classic code using **react-transition-group**
+Classic code using the **react-transition-group**
 
 ```jsx 
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
@@ -32,7 +32,7 @@ return (
 )
 
 ```
-⬇️ And using **Anima.js** ⬇️
+⬇️ And using the **Anima.js** ⬇️
 
 ```jsx
 const { anima } = useAnima();
@@ -66,7 +66,7 @@ const App = ({ isVisible }) => {
 
 ## Transitions
 
-As in the library React-Transition-Group, there are 3 type of transitions
+As in the library React-Transition-Group, there are three type of transitions
 
 ### Simple Transition
 Live [demo](https://codesandbox.io/s/anima-js-transition-animation-hhhnf2)
