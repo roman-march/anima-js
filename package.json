@@ -1,13 +1,25 @@
 {
   "name": "anima-test-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Anima.js - CSS Animation library controlled by React-Transition-Group",
   "scripts": {
     "build": "rimraf dist && tsc && rollup -c rollup.config.js"
   },
-  "keywords": [],
+  "keywords": ["anima", "animation", "css", "react", "transition", "group"],
   "author": "Roman Marchenko",
   "license": "MIT",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "files": ["dist"],
+  "types": "dist/index.d.ts",
+  "homepage": "https://github.com/roman-march/anima-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roman-march/anima-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/roman-march/anima-js/issues"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^22.0.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
@@ -28,9 +40,5 @@
   },
   "peerDependencies": {
     "react": ">=16.8"
-  },
-  "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "files": ["dist"],
-  "types": "dist/index.d.ts"
+  }
 }
