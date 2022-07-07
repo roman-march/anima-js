@@ -14,7 +14,7 @@ yarn:
 yarn add anima-js
 ```
 
-## Different
+## Differences
 
 Classic code using **react-transition-group**
 
