@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import useAnima from "anima-test-js";
+
+import "./App.css";
 
 function App() {
+  const { anima } = useAnima();
+
+  const [items, setItems] = React.useState([
+    { id: 1, text: "1" },
+    { id: 2, text: "2" },
+    { id: 3, text: "3" },
+    { id: 4, text: "4" },
+    { id: 5, text: "5" },
+  ]);
+
+  const handleClick = () => {
+    setItems((items) => [...items.slice(3, 5), { id: 9, text: "9" }]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <anima.ul group onClick={handleClick}>
+      {items.map(({ id, text }) => (
+        <anima.li key={id} className="list">
+          {text}
+        </anima.li>
+      ))}
+    </anima.ul>
   );
 }
 
