@@ -108,7 +108,7 @@ Live [demo](https://codesandbox.io/s/anima-js-transition-group-memsdx)
   {items.map(({ id, text }) => (
     <anima.li key={id} className="item">{text}</anima.li>
   ))}
-<anima.span>
+<anima.ul>
 ```
 ```css
  /* initial state */
