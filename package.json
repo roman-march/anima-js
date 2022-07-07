@@ -1,5 +1,5 @@
 {
-  "name": "anima-test-js",
+  "name": "anima-js",
   "version": "0.0.2",
   "description": "Anima.js - CSS Animation library controlled by React-Transition-Group",
   "scripts": {
