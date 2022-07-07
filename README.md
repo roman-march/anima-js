@@ -51,6 +51,7 @@ return (
 ## Usage
 
 ### Transition animation
+Live [demo](https://codesandbox.io/s/anima-js-transition-animation-hhhnf2)
 ```jsx
 <anima.h1 className="title" in={isVisible}>Hello world</anima.h1>
 ```
@@ -69,6 +70,9 @@ return (
 ```
 
 ### Switch Transition
+
+Live [demo](https://codesandbox.io/s/anima-js-transition-switch-hqcmfb)
+
 ```jsx
 <anima.span className="title" switch transitionKey={isDone}>
   {isDone ? "Finish" : "Start"}
@@ -94,6 +98,9 @@ return (
 ```
 
 ### Group Transition
+
+Live [demo](https://codesandbox.io/s/anima-js-transition-group-memsdx)
+
 ```jsx
 <anima.ul group>
   {items.map(({ id, text }) => (
