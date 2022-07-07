@@ -7,7 +7,7 @@ With Anima.js you can write **compact** code using the classic animation library
 
 npm:
 ```bash
-npm install anima-js -save
+npm install anima-js --save
 ```
 yarn:
 ```bash
