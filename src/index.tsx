@@ -4,54 +4,24 @@ import Component from "./components/Component";
 import { AnimaContext } from "./components/TransitionContext";
 import tags from "./tags";
 
-interface IUseAnima {
-  anima: ComponentType;
-  inTransition: boolean | null;
-}
+import { PropsType, IAnimaProps, IUseAnima, IAnimaContext } from "./types";
 
-interface IAnimaProps {
-  in?: string | number | boolean | null;
-  transitionKey?: string | number | boolean | null;
-  group?: boolean;
-  switch?: boolean;
-  prevent?: boolean;
-  unmount?: boolean;
-  mount?: boolean;
-  onAnimaTransition?: () => void;
-  onAnimaDone?: () => void;
-  onAnimaStart?: () => void;
-}
+// @ts-ignore
+const components: ComponentType = {};
 
-type TypeAnima<E extends React.ElementType = React.ElementType> = {
-  type?: E;
-};
-
-type AnimaProps<E extends React.ElementType> = TypeAnima<E> &
-  Omit<React.ComponentProps<E>, keyof TypeAnima>;
-
-const AnimaComp = <E extends React.ElementType>({ type }: AnimaProps<E>) =>
-  React.forwardRef<E, AnimaProps<E> & IAnimaProps>(function AnimaComponent(
+const AnimaComp = <E extends React.ElementType>({ type }: PropsType<E>) =>
+  React.forwardRef<E, PropsType<E> & IAnimaProps>(function AnimaComponent(
     props,
     ref
   ) {
     return <Component {...props} type={type} forwardedRef={ref} />;
   });
 
-type ComponentType = {
-  [T in keyof JSX.IntrinsicElements]: React.FC<
-    React.ComponentProps<T> & IAnimaProps
-  >;
-};
-
-// @ts-ignore
-const components: ComponentType = {};
-
 tags.forEach((type: string) => {
-  // @ts-ignore
   components[type] = AnimaComp<any>({ type });
 });
 
-const useAnima = (): IUseAnima => {
+const useAnima = (): IUseAnima & IAnimaContext => {
   const { inTransition } = React.useContext(AnimaContext);
 
   return {

@@ -1,12 +1,12 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { SwitchTransition, TransitionGroup } from "react-transition-group";
 
-import AnimaComponent from "./TransitionComponent";
+import TransitionComponent from "./TransitionComponent";
 
 import { isBool } from "../utils";
+import { IAnimaComponent, IAnimaProps } from "../types";
 
-const TransitComponent: React.FC<any> = ({
+const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
   type,
   forwardedRef,
   group: groupTransition,
@@ -30,13 +30,13 @@ const TransitComponent: React.FC<any> = ({
   if (isBool(switchTransition)) {
     return (
       <SwitchTransition>
-        <AnimaComponent {...props} key={transitionKey} type={customType} />
+        <TransitionComponent {...props} key={transitionKey} type={customType} />
       </SwitchTransition>
     );
   }
 
   return (
-    <AnimaComponent
+    <TransitionComponent
       {...props}
       key={props.children && props.children.key}
       type={customType}
@@ -44,8 +44,4 @@ const TransitComponent: React.FC<any> = ({
   );
 };
 
-TransitComponent.propTypes = {
-  type: PropTypes.string,
-};
-
-export default React.memo(TransitComponent);
+export default React.memo(AnimaComponent);

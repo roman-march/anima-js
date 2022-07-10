@@ -1,20 +1,80 @@
-.App {
-  text-align: center;
+.root {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  font-size: 40px;
+  color: #ffffff;
+  background: #000000;
+  user-select: none;
 }
 
-.list {
+.root > section {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  border-right: 1px solid #313131;
+  cursor: pointer;
+}
+
+.root ul {
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  list-style: none;
+}
+
+.item-one {
   opacity: 1;
   transition: opacity 0.5s;
 }
 
-.t-in-out.list {
-  opacity: 0;
+.t-in-out.item-one {
+  opacity: 0.2;
 }
 
-.t-in.list {
+.t-in.item-one {
   opacity: 1;
 }
 
-.t-out.list {
+.t-out.item-one {
+  opacity: 0.2;
+}
+
+.item-two {
+  opacity: 1;
+  transition: opacity 0.5s;
+}
+
+.t-in-out.item-two {
   opacity: 0;
+}
+
+.t-in.item-two {
+  opacity: 1;
+}
+
+.t-out.item-two {
+  opacity: 0;
+}
+
+.item-three {
+  opacity: 1;
+  height: 40px;
+  transition: all 0.3s;
+  transition-property: opacity, height;
+}
+
+.t-in-out.item-three {
+  opacity: 0;
+}
+
+.t-in.item-three {
+  height: 40px;
+  opacity: 1;
+}
+
+.t-out.item-three {
+  opacity: 0;
+  height: 0;
 }

@@ -4,6 +4,8 @@ import { CSSTransition } from "react-transition-group";
 import { AnimaContext } from "./TransitionContext";
 import { nextFrame } from "../utils";
 
+import { IAnimaComponent, IAnimaProps, ITransitionContext } from "../types";
+
 const classNames = {
   appear: "t-in-out",
   appearActive: "t-in",
@@ -18,7 +20,9 @@ const classNames = {
   exitDone: "t-out",
 };
 
-const TransitionComponent: React.FC<any> = (props) => {
+const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
+  props
+) => {
   const {
     type: Component,
     children,
@@ -31,50 +35,52 @@ const TransitionComponent: React.FC<any> = (props) => {
     ...rest
   } = props;
 
-  const ctx = React.useMemo<any>(
+  const ctx = React.useMemo<ITransitionContext>(
     () => ({
       in: false,
-      node: null,
-      done: null,
-      callback: null,
-      onAnimaDone: null,
-      onAnimaStart: null,
+      node: undefined,
+      done: undefined,
+      onAnimaDone: undefined,
+      onAnimaStart: undefined,
+      onAnimaTransition: undefined,
     }),
     []
   );
 
   const handleDone = React.useCallback(
-    (event: React.CompositionEvent) => {
+    (event: Event) => {
       if (prevent) {
         event.preventDefault();
         event.stopPropagation();
       }
 
-      if (ctx.onAnimaDone) {
-        ctx.onAnimaDone(ctx.in);
+      if (ctx.in && ctx.node && ctx.onAnimaDone) {
+        ctx && ctx.onAnimaDone(ctx.in, ctx.node);
       }
 
-      ctx.done();
+      ctx.done && ctx.done();
 
       nextFrame(() => {
-        ctx.node.removeEventListener("transitionend", handleDone);
-        ctx.node.removeEventListener("animationend", handleDone);
+        if (ctx.node) {
+          ctx.node.removeEventListener("transitionend", handleDone);
+          ctx.node.removeEventListener("animationend", handleDone);
+        }
       });
     },
     [prevent]
   );
 
   const handleAddEndListener = React.useCallback(
-    (node: React.ReactElement, done: Function) => {
+    (node: HTMLElement, done: () => void) => {
       ctx.node = node;
       ctx.done = done;
 
       if (ctx.onAnimaStart) {
-        ctx.onAnimaStart(node, done);
+        ctx.onAnimaStart(ctx.in, ctx.node);
       }
 
       if (ctx.onAnimaTransition) {
-        return onAnimaTransition(ctx.in, node, done);
+        return onAnimaTransition(ctx.in, ctx.node, ctx.done);
       }
 
       ctx.node.addEventListener("transitionend", handleDone, false);

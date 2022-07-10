@@ -1,4 +1,4 @@
-const types = [
+const types: string[] = [
   "custom",
   "a",
   "abbr",
