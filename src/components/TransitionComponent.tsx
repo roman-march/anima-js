@@ -80,7 +80,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
       }
 
       if (ctx.onAnimaTransition) {
-        return onAnimaTransition(ctx.in, ctx.node, ctx.done);
+        return ctx.onAnimaTransition(ctx.in, ctx.node, ctx.done);
       }
 
       ctx.node.addEventListener("transitionend", handleDone, false);

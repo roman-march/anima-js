@@ -19,9 +19,9 @@ export interface IAnimaProps {
   prevent?: boolean;
   unmount?: boolean;
   mount?: boolean;
-  onAnimaDone: OnAnimaDoneType;
-  onAnimaStart: OnAnimaStartType;
-  onAnimaTransition: OnAnimaTransition;
+  onAnimaDone?: OnAnimaDoneType;
+  onAnimaStart?: OnAnimaStartType;
+  onAnimaTransition?: OnAnimaTransition;
 }
 
 export type InPropType = boolean | undefined;
