@@ -82,6 +82,7 @@ const types: string[] = [
   "pre",
   "progress",
   "path",
+  "use",
   "q",
   "rp",
   "rt",
