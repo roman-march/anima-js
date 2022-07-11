@@ -5,6 +5,7 @@ import TransitionComponent from "./TransitionComponent";
 
 import { isBool } from "../utils";
 import { IAnimaComponent, IAnimaProps } from "../types";
+import useAnima from "../index";
 
 const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
   type,
@@ -15,12 +16,15 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
   transitionKey,
   ...props
 }) => {
+  const { inTransition } = useAnima();
+  const inProp = props.in !== undefined ? props.in : inTransition;
   const customType = type === "custom" ? Component : type;
 
   if (isBool(groupTransition)) {
     return (
       <TransitionGroup
         {...props}
+        in={inProp}
         key={props.children.key}
         component={customType}
       />
@@ -30,7 +34,12 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
   if (isBool(switchTransition)) {
     return (
       <SwitchTransition>
-        <TransitionComponent {...props} key={transitionKey} type={customType} />
+        <TransitionComponent
+          {...props}
+          key={transitionKey}
+          type={customType}
+          in={inProp}
+        />
       </SwitchTransition>
     );
   }
@@ -40,6 +49,7 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
       {...props}
       key={props.children && props.children.key}
       type={customType}
+      in={inProp}
     />
   );
 };
