@@ -54,7 +54,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
         event.stopPropagation();
       }
 
-      if (ctx.in && ctx.node && ctx.onAnimaDone) {
+      if (ctx.node && ctx.onAnimaDone) {
         ctx && ctx.onAnimaDone(ctx.in, ctx.node);
       }
 
