@@ -1,6 +1,6 @@
 {
   "name": "anima-js",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Anima.js - CSS Animation library controlled by React-Transition-Group",
   "scripts": {
     "build": "rimraf dist && tsc && rollup -c rollup.config.js"

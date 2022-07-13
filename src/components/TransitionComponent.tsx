@@ -9,11 +9,11 @@ import { IAnimaComponent, IAnimaProps, ITransitionContext } from "../types";
 const classNames = {
   appear: "t-in-out",
   appearActive: "t-in",
-  appearDone: "t-in",
+  appearDone: "",
 
   enter: "t-in-out",
   enterActive: "t-in",
-  enterDone: "t-in",
+  enterDone: "",
 
   exit: "t-in t-out",
   exitActive: "t-in t-out",
