@@ -15,8 +15,8 @@ const classNames = {
   enterActive: "t-in",
   enterDone: "t-in",
 
-  exit: "t-out",
-  exitActive: "t-out",
+  exit: "t-in t-out",
+  exitActive: "t-in t-out",
   exitDone: "t-out",
 };
 

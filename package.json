@@ -1,6 +1,6 @@
 {
   "name": "anima-js",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Anima.js - CSS Animation library controlled by React-Transition-Group",
   "scripts": {
     "build": "rimraf dist && tsc && rollup -c rollup.config.js"
@@ -36,8 +36,6 @@
     "@types/react": "^18.0.14",
     "@types/react-transition-group": "^4.4.5",
     "prettier": "^2.7.1",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.75.7",
     "rollup-plugin-dts": "^4.2.2",
@@ -50,7 +48,6 @@
     "react-transition-group": "^4.4.2"
   },
   "peerDependencies": {
-    "react": ">=16.8",
-    "react-dom": ">=16.8"
+    "react": ">=16.8"
   }
 }
