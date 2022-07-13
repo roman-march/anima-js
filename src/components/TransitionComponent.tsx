@@ -49,6 +49,12 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
 
   const handleDone = React.useCallback(
     (event: Event) => {
+      const target = event.target as HTMLElement;
+
+      if (!/t-in|t-out/.test(target.className)) {
+        return;
+      }
+
       if (prevent) {
         event.preventDefault();
         event.stopPropagation();

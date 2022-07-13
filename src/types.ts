@@ -15,6 +15,7 @@ export interface IAnimaProps {
   in?: InPropType;
   transitionKey?: any;
   group?: boolean;
+  appear?: boolean;
   switch?: boolean;
   prevent?: boolean;
   unmount?: boolean;
