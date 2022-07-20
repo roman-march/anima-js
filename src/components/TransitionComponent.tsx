@@ -12,9 +12,9 @@ const classNames = {
   appearActive: "t-in",
   appearDone: "t-in",
 
-  enter: "t-in-out",
+  enter: "t-out",
   enterActive: "t-in",
-  enterDone: "t-in",
+  enterDone: "",
 
   exit: "t-in t-out",
   exitActive: "t-in t-out",

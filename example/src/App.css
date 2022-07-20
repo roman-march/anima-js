@@ -26,55 +26,47 @@
 
 .item-one {
   opacity: 1;
+}
+
+[class$="t-out"].item-one {
+  opacity: 0.2;
   transition: opacity 0.5s;
 }
 
-.t-in-out.item-one {
-  opacity: 0.2;
-}
-
-.t-in.item-one {
+[class$="t-in"].item-one {
   opacity: 1;
-}
-
-.t-out.item-one {
-  opacity: 0.2;
+  transition: opacity 0.5s;
 }
 
 .item-two {
   opacity: 1;
+}
+
+[class$="t-out"].item-two {
+  opacity: 0;
   transition: opacity 0.5s;
 }
 
-.t-in-out.item-two {
-  opacity: 0;
-}
-
-.t-in.item-two {
+[class$="t-in"].item-two {
   opacity: 1;
-}
-
-.t-out.item-two {
-  opacity: 0;
+  transition: opacity 0.5s;
 }
 
 .item-three {
   opacity: 1;
   height: 40px;
-  transition: all 0.3s;
+}
+
+[class$="t-out"].item-three {
+  opacity: 0;
+  height: 0;
+  transition: all 0.5s;
   transition-property: opacity, height;
 }
 
-.t-in-out.item-three {
-  opacity: 0;
-}
-
-.t-in.item-three {
-  height: 40px;
+[class$="t-in"].item-three {
   opacity: 1;
-}
-
-.t-out.item-three {
-  opacity: 0;
-  height: 0;
+  height: 40px;
+  transition: all 0.5s;
+  transition-property: opacity, height;
 }

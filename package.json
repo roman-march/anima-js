@@ -1,9 +1,10 @@
 {
   "name": "anima-js",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Anima.js - CSS Animation library controlled by React-Transition-Group",
   "scripts": {
-    "build": "rimraf dist && tsc && rollup -c rollup.config.js"
+    "build": "rimraf dist && tsc && rollup -c",
+    "dev": "rimraf dist && tsc && rollup -c -w"
   },
   "keywords": [
     "anima",
@@ -48,6 +49,7 @@
     "react-transition-group": "^4.4.2"
   },
   "peerDependencies": {
-    "react": ">=16.8"
+    "react": ">=16.8",
+    "react-dom": ">=16.8"
   }
 }
