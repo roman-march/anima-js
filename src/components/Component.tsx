@@ -24,9 +24,9 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
     return (
       <TransitionGroup
         {...props}
-        forwardedRef={forwardedRef}
         in={inProp}
         key={props.children.key}
+        ref={forwardedRef}
         component={customType}
       />
     );
