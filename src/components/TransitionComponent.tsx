@@ -3,6 +3,7 @@ import { CSSTransition } from "react-transition-group";
 
 import { AnimaContext } from "./TransitionContext";
 import { nextFrame } from "../utils";
+import useCombinedRefs from "../useCombinedRefs";
 
 import { IAnimaComponent, IAnimaProps, ITransitionContext } from "../types";
 
@@ -25,6 +26,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
 ) => {
   const {
     type: Component,
+    forwardedRef,
     children,
     prevent,
     unmount: unmountOnExit,
@@ -34,6 +36,8 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
     onAnimaStart,
     ...rest
   } = props;
+  const ref = React.useRef();
+  const combinedRef = useCombinedRefs(forwardedRef, ref);
 
   const ctx = React.useMemo<ITransitionContext>(
     () => ({
@@ -114,7 +118,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
         unmountOnExit={unmountOnExit}
         addEndListener={handleAddEndListener}
       >
-        <Component>{children}</Component>
+        <Component ref={combinedRef}>{children}</Component>
       </CSSTransition>
     </AnimaContext.Provider>
   );

@@ -24,6 +24,7 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
     return (
       <TransitionGroup
         {...props}
+        forwardedRef={forwardedRef}
         in={inProp}
         key={props.children.key}
         component={customType}
@@ -36,6 +37,7 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
       <SwitchTransition>
         <TransitionComponent
           {...props}
+          forwardedRef={forwardedRef}
           key={transitionKey}
           type={customType}
           in={inProp}
@@ -47,6 +49,7 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
   return (
     <TransitionComponent
       {...props}
+      forwardedRef={forwardedRef}
       key={props.children && props.children.key}
       type={customType}
       in={inProp}
