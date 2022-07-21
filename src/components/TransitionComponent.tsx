@@ -12,12 +12,12 @@ const classNames = {
   appearActive: "out in",
   appearDone: "",
 
-  enter: "out enter",
-  enterActive: "out in enter",
+  enter: "enter out",
+  enterActive: "enter out in",
   enterDone: "",
 
-  exit: "in exit",
-  exitActive: "in out exit",
+  exit: "exit in",
+  exitActive: "exit in out",
   exitDone: "out",
 };
 
