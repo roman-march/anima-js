@@ -25,29 +25,30 @@
 }
 
 .item-one {
-  opacity: 1;
 }
 
-[class$="t-out"].item-one {
-  opacity: 0.2;
-  transition: opacity 0.5s;
+
+[class$="in"].item-one {
+  opacity: 1;
+  transition: opacity 1s;
 }
 
-[class$="t-in"].item-one {
-  opacity: 1;
-  transition: opacity 0.5s;
+[class$="out"].item-one {
+  opacity: 0;
+  transition: opacity 1s;
 }
+
 
 .item-two {
   opacity: 1;
 }
 
-[class$="t-out"].item-two {
+[class$="out"].item-two {
   opacity: 0;
   transition: opacity 0.5s;
 }
 
-[class$="t-in"].item-two {
+[class$="in"].item-two {
   opacity: 1;
   transition: opacity 0.5s;
 }
@@ -57,14 +58,14 @@
   height: 40px;
 }
 
-[class$="t-out"].item-three {
+[class$="out"].item-three {
   opacity: 0;
   height: 0;
   transition: all 0.5s;
   transition-property: opacity, height;
 }
 
-[class$="t-in"].item-three {
+[class$="in"].item-three {
   opacity: 1;
   height: 40px;
   transition: all 0.5s;

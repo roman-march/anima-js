@@ -10,12 +10,16 @@ const initialItems = [
 ];
 
 function App() {
+  const ref = React.useRef(null);
+
   const { anima } = useAnima();
   const [isActive, setActive] = React.useState(true);
-  const [isVisible, setVisible] = React.useState(true);
+  const [isVisible, setVisible] = React.useState(false);
   const [items, setItems] = React.useState(initialItems);
 
   const handleItemOneClick = React.useCallback(() => {
+    console.log(ref.current);
+
     setVisible((value) => !value);
   }, []);
 
@@ -30,7 +34,7 @@ function App() {
   return (
     <main className="root">
       <section onClick={handleItemOneClick}>
-        <anima.div className="item-one" in={isVisible}>
+        <anima.div ref={ref} className="item-one" mount unmount in={isVisible}>
           Click
         </anima.div>
       </section>

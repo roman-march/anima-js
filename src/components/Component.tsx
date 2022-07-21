@@ -12,13 +12,20 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
   forwardedRef,
   group: groupTransition,
   switch: switchTransition,
-  component: Component,
+  component,
   transitionKey,
   ...props
 }) => {
+  const CustomComponent = React.forwardRef(function AnimaCustomComponent(
+    props,
+    ref
+  ) {
+    return <component.type {...props} forwardedRef={ref} />;
+  });
+
   const { inTransition } = useAnima();
   const inProp = props.in !== undefined ? props.in : inTransition;
-  const customType = type === "custom" ? Component : type;
+  const customType = type === "custom" ? CustomComponent : type;
 
   if (isBool(groupTransition)) {
     return (

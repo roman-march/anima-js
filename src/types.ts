@@ -8,7 +8,7 @@ export interface IAnimaComponent {
   type: string | any;
   children?: any;
   forwardedRef?: React.Ref<any>;
-  component?: React.ElementType;
+  component?: any;
 }
 
 export interface IAnimaProps {
@@ -34,6 +34,7 @@ export interface ITransitionContext {
   in: boolean | undefined;
   node?: HTMLElement;
   done?: () => void;
+  count: number;
   onAnimaDone?: OnAnimaDoneType;
   onAnimaStart?: OnAnimaStartType;
   onAnimaTransition?: OnAnimaTransition;
