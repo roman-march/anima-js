@@ -2,23 +2,28 @@ import React from "react";
 import { CSSTransition } from "react-transition-group";
 
 import { AnimaContext } from "./TransitionContext";
-import { nextFrame } from "../utils";
 import useCombinedRefs from "../useCombinedRefs";
 
 import { IAnimaComponent, IAnimaProps, ITransitionContext } from "../types";
 
-const classNames = {
-  appear: "out",
-  appearActive: "out in",
-  appearDone: "",
+const classNames = (state: boolean | undefined) => ({
+  appear: "exit",
+  appearActive: "enter",
+  appearDone: state ? "enter" : "",
 
-  enter: "enter out",
-  enterActive: "out in",
-  enterDone: "",
+  enter: "exit",
+  enterActive: "enter",
+  enterDone: state ? "enter" : "",
 
-  exit: "exit in",
-  exitActive: "in out",
-  exitDone: "out",
+  exit: "enter",
+  exitActive: "exit",
+  exitDone: "exit",
+});
+
+const stopEvents = (event: any) => {
+  event.preventDefault();
+  event.stopPropagation();
+  event.stopImmediatePropagation();
 };
 
 const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
@@ -29,6 +34,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
     forwardedRef,
     children,
     prevent,
+    state,
     unmount: unmountOnExit,
     mount: mountOnEnter,
     onAnimaTransition,
@@ -47,30 +53,38 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
       onAnimaDone: undefined,
       onAnimaStart: undefined,
       onAnimaTransition: undefined,
-      count: 0,
+      playing: 0,
     }),
     []
   );
 
-  const handleStart = React.useCallback(() => {
-    ctx.count += 1;
+  const onTransitionStart = React.useCallback((event: any) => {
+    if (prevent) stopEvents(event);
+
+    ctx.playing += 1;
   }, []);
 
-  const handleCancel = React.useCallback(() => {
-    ctx.count -= 1;
+  const onTransitionEnd = React.useCallback((event: any) => {
+    if (prevent) stopEvents(event);
+
+    ctx.playing -= 1;
+
+    if (ctx.playing <= 0) {
+      handleDone(event);
+    }
+  }, []);
+
+  const onTransitionCancel = React.useCallback((event: any) => {
+    if (prevent) stopEvents(event);
+
+    ctx.playing -= 1;
   }, []);
 
   const handleDone = React.useCallback(
     (event: Event) => {
-      ctx.count -= 1;
-
-      if (ctx.count > 0) {
-        return;
-      }
-
       const target = event.target as HTMLElement;
 
-      if (!/\b(in|out)\b/i.test(target.className)) {
+      if (!/\b(enter|exit)\b/i.test(target.className)) {
         return;
       }
 
@@ -78,25 +92,27 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
         ctx && ctx.onAnimaDone(ctx.in, ctx.node);
       }
 
+      if (ctx.node) {
+        ctx.node.removeEventListener("transitionstart", onTransitionStart);
+        ctx.node.removeEventListener("transitioncancel", onTransitionCancel);
+        ctx.node.removeEventListener("transitionend", onTransitionEnd);
+
+        ctx.node.removeEventListener("animationstart", onTransitionStart);
+        ctx.node.removeEventListener("animationcancel", onTransitionCancel);
+        ctx.node.removeEventListener("animationend", onTransitionEnd);
+      }
+
       ctx.done && ctx.done();
-
-      nextFrame(() => {
-        if (ctx.node) {
-          ctx.node.removeEventListener("transitionstart", handleStart);
-          ctx.node.removeEventListener("transitioncancel", handleCancel);
-          ctx.node.removeEventListener("transitionend", handleDone);
-
-          ctx.node.removeEventListener("animationstart", handleStart);
-          ctx.node.removeEventListener("animationcancel", handleCancel);
-          ctx.node.removeEventListener("animationend", handleDone);
-        }
-      });
     },
     [prevent]
   );
 
   const handleAddEndListener = React.useCallback(
     (node: HTMLElement, done: () => void) => {
+      if (!/\b(enter|exit)\b/i.test(node.className)) {
+        return;
+      }
+
       ctx.node = node;
       ctx.done = done;
       combinedRef.current = ctx.node as any;
@@ -109,13 +125,13 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
         return ctx.onAnimaTransition(ctx.in, ctx.node, ctx.done);
       }
 
-      ctx.node.addEventListener("transitionstart", handleStart, false);
-      ctx.node.addEventListener("transitioncancel", handleCancel, false);
-      ctx.node.addEventListener("transitionend", handleDone, false);
+      ctx.node.addEventListener("transitionstart", onTransitionStart, false);
+      ctx.node.addEventListener("transitioncancel", onTransitionCancel, false);
+      ctx.node.addEventListener("transitionend", onTransitionEnd, false);
 
-      ctx.node.addEventListener("animationstart", handleStart, false);
-      ctx.node.addEventListener("animationcancel", handleCancel, false);
-      ctx.node.addEventListener("animationend", handleDone, false);
+      ctx.node.addEventListener("animationstart", onTransitionStart, false);
+      ctx.node.addEventListener("animationcancel", onTransitionCancel, false);
+      ctx.node.addEventListener("animationend", onTransitionEnd, false);
     },
     [handleDone]
   );
@@ -134,7 +150,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
     <AnimaContext.Provider value={{ inTransition: props.in }}>
       <CSSTransition
         {...rest}
-        classNames={classNames}
+        classNames={classNames(state)}
         mountOnEnter={mountOnEnter}
         unmountOnExit={unmountOnExit}
         addEndListener={handleAddEndListener}

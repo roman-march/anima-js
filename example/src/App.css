@@ -25,17 +25,15 @@
 }
 
 .item-one {
+  transition: opacity 1s;
 }
 
-
-[class$="in"].item-one {
+[class$="enter"].item-one {
   opacity: 1;
-  transition: opacity 1s;
 }
 
-[class$="out"].item-one {
+[class$="exit"].item-one {
   opacity: 0;
-  transition: opacity 1s;
 }
 
 
@@ -43,12 +41,12 @@
   opacity: 1;
 }
 
-[class$="out"].item-two {
+[class$="exit"].item-two {
   opacity: 0;
   transition: opacity 0.5s;
 }
 
-[class$="in"].item-two {
+[class$="enter"].item-two {
   opacity: 1;
   transition: opacity 0.5s;
 }
@@ -58,14 +56,15 @@
   height: 40px;
 }
 
-[class$="out"].item-three {
+
+[class$="exit"].item-three {
   opacity: 0;
   height: 0;
   transition: all 0.5s;
   transition-property: opacity, height;
 }
 
-[class$="in"].item-three {
+[class$="enter"].item-three {
   opacity: 1;
   height: 40px;
   transition: all 0.5s;

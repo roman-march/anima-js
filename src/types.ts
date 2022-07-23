@@ -20,6 +20,7 @@ export interface IAnimaProps {
   prevent?: boolean;
   unmount?: boolean;
   mount?: boolean;
+  state?: boolean;
   onAnimaDone?: OnAnimaDoneType;
   onAnimaStart?: OnAnimaStartType;
   onAnimaTransition?: OnAnimaTransition;
@@ -34,7 +35,7 @@ export interface ITransitionContext {
   in: boolean | undefined;
   node?: HTMLElement;
   done?: () => void;
-  count: number;
+  playing: number;
   onAnimaDone?: OnAnimaDoneType;
   onAnimaStart?: OnAnimaStartType;
   onAnimaTransition?: OnAnimaTransition;
