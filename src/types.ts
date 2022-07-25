@@ -14,6 +14,7 @@ export interface IAnimaComponent {
 export interface IAnimaProps {
   in?: InPropType;
   transitionKey?: any;
+  stagger?: number;
   group?: boolean;
   appear?: boolean;
   switch?: boolean;

@@ -12,8 +12,10 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
   forwardedRef,
   group: groupTransition,
   switch: switchTransition,
+  stagger,
   component,
   transitionKey,
+  children,
   ...props
 }) => {
   const CustomComponent = React.forwardRef(function AnimaCustomComponent(
@@ -27,12 +29,31 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
   const inProp = props.in !== undefined ? props.in : inTransition;
   const customType = type === "custom" ? CustomComponent : type;
 
+  const newChildren = React.Children.map(children, (child, index: any) => {
+    if (React.isValidElement(child)) {
+      const props = child.props as any;
+      const style = props.style || {};
+
+      if (stagger !== undefined) {
+        style["--delay"] = index * stagger;
+      }
+
+      return React.cloneElement<any>(child, {
+        ...props,
+        style,
+      });
+    }
+
+    return child;
+  });
+
   if (isBool(groupTransition)) {
     return (
       <TransitionGroup
         {...props}
+        children={newChildren}
         in={inProp}
-        key={props.children.key}
+        key={children.key}
         ref={forwardedRef}
         component={customType}
       />
@@ -44,6 +65,7 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
       <SwitchTransition>
         <TransitionComponent
           {...props}
+          children={newChildren}
           forwardedRef={forwardedRef}
           key={transitionKey}
           type={customType}
@@ -56,8 +78,9 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
   return (
     <TransitionComponent
       {...props}
+      children={newChildren}
       forwardedRef={forwardedRef}
-      key={props.children && props.children.key}
+      key={children && children.key}
       type={customType}
       in={inProp}
     />

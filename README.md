@@ -77,13 +77,13 @@ Live [demo](https://codesandbox.io/s/anima-js-transition-animation-hhhnf2)
 ```
 ```css
 /* enter state */
-.t-in.title {
+[class$="enter"].title {
   opacity: 1;
   transition: opacity .5s;
 }
 
 /* exit state */
-.t-out.title {
+[class$="exit"].title {
   opacity: 0;
   transition: opacity .25s;
 }
@@ -99,19 +99,14 @@ Live [demo](https://codesandbox.io/s/anima-js-transition-switch-hqcmfb)
 <anima.span>
 ```
 ```css
- /* initial state */
-.t-in-out.title {
-  opacity: 0;
-}
-
 /* enter state */
-.t-in.title {
+[class$="enter"].title {
   opacity: 1;
   transition: opacity .5s;
 }
 
 /* exit state */
-.t-out.title {
+[class$="exit"].title {
   opacity: 0;
   transition: opacity .25s;
 }
@@ -129,19 +124,14 @@ Live [demo](https://codesandbox.io/s/anima-js-transition-group-memsdx)
 <anima.ul>
 ```
 ```css
- /* initial state */
-.t-in-out.title {
-  opacity: 0;
-}
-
 /* enter state */
-.t-in.title {
+[class$="enter"].title {
   opacity: 1;
   transition: opacity .5s;
 }
 
 /* exit state */
-.t-out.title {
+[class$="enter"].title {
   opacity: 0;
   transition: opacity .25s;
 }
