@@ -1,7 +1,7 @@
 # Anima.js 🎞
 
-**Anima.js** - CSS Animation library controlled by React-Transition-Group.<br />
-With Anima.js you can write **compact** code using the classic animation library for react.
+**Anima.js** - SCSS/SASS Animation library.<br />
+With Anima.js you can write **compact** code using the transitions and animations controlled from javascript.
 
 ## Download
 
@@ -14,40 +14,6 @@ yarn:
 yarn add anima-js
 ```
 
-## Differences
-
-Classic code using the **react-transition-group**
-
-```jsx 
-import { TransitionGroup, CSSTransition } from 'react-transition-group'
-
-return (
-  <TransitionGroup component="ul">
-    {items.map(({ id, text }) => (
-      <CSSTransition classNames="item" key={id} timeout={500}>
-        <li>{text}</li>
-      </CSSTransition>
-    ))}
-  </TransitionGroup>
-)
-
-```
-⬇️ And using the **Anima.js** ⬇️
-
-```jsx
-const { anima } = useAnima();
-  
-return (
-  <anima.ul group>
-    {items.map(({ id, text }) => (
-      <anima.li key={id} className="item">{text}</anima.li>
-    ))}
-  </anima.ul>
-)
-```
-
-🎬⏱ Also, you don't have to think about timeout. Anime.js **automatically** manages the start and end of the animation. ⏱🎬
-
 ## Usage
 
 ```jsx
@@ -57,110 +23,93 @@ const App = ({ isVisible }) => {
   const { anima } = useAnima();
   
   return (
-    <anima.h1 className="title" in={isVisible}>
+    <anima.h1 className="title" state in={isVisible}>
       Hello world
     </anima.h1>
   )
 }
 ```
+```scss
+.title {
+  @include in {
+    opacity: 1;
+    transition: opacity .5s;
+  }
 
-## Transitions
-
-As in the library React-Transition-Group, there are three type of transitions
-
-### Simple Transition
-Live [demo](https://codesandbox.io/s/anima-js-transition-animation-hhhnf2)
-```jsx
-<anima.h1 className="title" in={isVisible}>
-  Hello world
-</anima.h1>
-```
-```css
-/* enter state */
-[class$="enter"].title {
-  opacity: 1;
-  transition: opacity .5s;
-}
-
-/* exit state */
-[class$="exit"].title {
-  opacity: 0;
-  transition: opacity .25s;
+  @include out {
+    opacity: 0;
+    transition: opacity .25s;
+  }
 }
 ```
 
-### Switch Transition
+<details>
+<summary>I <b>recommend</b> using special mixins for shorter code</summary>
 
-Live [demo](https://codesandbox.io/s/anima-js-transition-switch-hqcmfb)
-
-```jsx
-<anima.span className="title" switch transitionKey={isDone}>
-  {isDone ? "Finish" : "Start"}
-<anima.span>
-```
-```css
-/* enter state */
-[class$="enter"].title {
-  opacity: 1;
-  transition: opacity .5s;
+```scss
+@mixin in {
+  &[class$="enter"] {
+    @content;
+  }
 }
 
-/* exit state */
-[class$="exit"].title {
-  opacity: 0;
-  transition: opacity .25s;
-}
-```
-
-### Group Transition
-
-Live [demo](https://codesandbox.io/s/anima-js-transition-group-memsdx)
-
-```jsx
-<anima.ul group>
-  {items.map(({ id, text }) => (
-    <anima.li key={id} className="item">{text}</anima.li>
-  ))}
-<anima.ul>
-```
-```css
-/* enter state */
-[class$="enter"].title {
-  opacity: 1;
-  transition: opacity .5s;
+@mixin out {
+  &[class$="exit"] {
+    @content;
+  }
 }
 
-/* exit state */
-[class$="enter"].title {
-  opacity: 0;
-  transition: opacity .25s;
+@mixin animation-in($animation: 1s 0s both) {
+  &[class$="enter"] {
+    $name: anima-#{unique-id()};
+    animation: #{$name} $animation;
+    @keyframes #{$name} {
+      @content;
+    }
+  }
+}
+
+@mixin animation-out($animation: 1s 0s both) {
+  &[class$="exit"] {
+    $name: anima-#{unique-id()};
+    animation: #{$name} $animation;
+    @keyframes #{$name} {
+      @content;
+    }
+  }
 }
 ```
+</details>
+
+
+## Examples
+
+[Simple Transition](https://codesandbox.io/s/anima-js-transition-animation-hhhnf2)
+
+[Switch Transition](https://codesandbox.io/s/anima-js-transition-switch-hqcmfb)
+
+[Group Transition](https://codesandbox.io/s/anima-js-transition-group-memsdx)
+
+[Animated Button](https://codesandbox.io/s/anima-js-button-giulzx)
 
 ## Callbacks
 
-### onAnimaStart
-
 A callback that will fire when an animation starts.
 
-```tsx
-onAnimaStart: (node: HTMLElement, done: Function) => void
+```tsc
+onAnimaStart: (in: boolean, node: HTMLElement) => void
 ```
-
-### onAnimaDone
 
 A callback that will fire when an animation has finished.
 
-```tsx
-onAnimaDone: (in: boolean) => void
+```tsc
+onAnimaDone: (in: boolean, node: HTMLElement) => void
 ```
-
-### onAnimaTransition
 
 A callback that fires before an animation starts.<br />
 If you want to use custom animation you need this method.
 
-```tsx
+```tsc
 onAnimaTransition: (in: boolean, node: HTMLElement, done: Function) => void
 ```
 
@@ -173,7 +122,7 @@ const MyComponent = ({ children }) => (
   <h1>{children}<h1>
 )
 
-<anima.custom className="title" component={MyComponent}>
+<anima.custom component={MyComponent}>
   Hello world
 </anima.custom>
 ```
