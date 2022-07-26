@@ -37,14 +37,14 @@ const App = ({ isVisible }) => {
   }
 
   @include out {
-    opacity: 0;
+    opacity: 0.5;
     transition: opacity .25s;
   }
 }
 ```
 
 <details>
-<summary>I <b>recommend</b> using special mixins for shorter code</summary>
+<summary>I <b>recommend</b> using special <b>mixins</b> for shorter code</summary>
 
 ```scss
 @mixin in {
