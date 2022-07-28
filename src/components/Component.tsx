@@ -61,16 +61,20 @@ const AnimaComponent: React.FC<IAnimaComponent & IAnimaProps> = ({
   }
 
   if (isBool(switchTransition)) {
+    if (type === "custom" && component === undefined) {
+      return <SwitchTransition>{children}</SwitchTransition>;
+    }
+
     return (
       <SwitchTransition>
         <TransitionComponent
           {...props}
-          children={newChildren}
           forwardedRef={forwardedRef}
           key={transitionKey}
           type={customType}
-          in={inProp}
-        />
+        >
+          {newChildren}
+        </TransitionComponent>
       </SwitchTransition>
     );
   }
