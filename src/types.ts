@@ -22,6 +22,7 @@ export interface IAnimaProps {
   unmount?: boolean;
   mount?: boolean;
   state?: boolean;
+  initial?: boolean;
   onAnimaDone?: OnAnimaDoneType;
   onAnimaStart?: OnAnimaStartType;
   onAnimaTransition?: OnAnimaTransition;

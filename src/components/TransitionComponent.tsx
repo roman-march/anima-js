@@ -6,13 +6,13 @@ import useCombinedRefs from "../useCombinedRefs";
 
 import { IAnimaComponent, IAnimaProps, ITransitionContext } from "../types";
 
-const classNames = (state: boolean | undefined) => ({
-  appear: "exit",
-  appearActive: "enter",
+const classNames = (state?: boolean, initial?: boolean) => ({
+  appear: initial ? "init" : "exit",
+  appearActive: initial ? "init enter" : "enter",
   appearDone: state ? "enter" : "",
 
-  enter: "exit",
-  enterActive: "enter",
+  enter: initial ? "init" : "exit",
+  enterActive: initial ? "init enter" : "enter",
   enterDone: state ? "enter" : "",
 
   exit: "enter",
@@ -35,6 +35,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
     children,
     prevent,
     state,
+    initial,
     unmount: unmountOnExit,
     mount: mountOnEnter,
     onAnimaTransition,
@@ -150,7 +151,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
     <AnimaContext.Provider value={{ inTransition: props.in }}>
       <CSSTransition
         {...rest}
-        classNames={classNames(state)}
+        classNames={classNames(state, initial)}
         mountOnEnter={mountOnEnter}
         unmountOnExit={unmountOnExit}
         addEndListener={handleAddEndListener}
