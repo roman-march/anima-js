@@ -8,7 +8,7 @@ import { IAnimaComponent, IAnimaProps, ITransitionContext } from "../types";
 
 const classNames = (state?: boolean, initial?: boolean) => ({
   appear: initial ? "init" : "exit",
-  appearActive: initial ? "init enter" : "enter",
+  appearActive: initial ? "init enter" : "exit enter",
   appearDone: state ? "enter" : "",
 
   enter: initial ? "init" : "exit",
@@ -94,7 +94,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
       }
 
       if (ctx.node) {
-        ctx.node.removeEventListener("transitionstart", onTransitionStart);
+        ctx.node.removeEventListener("transitionrun", onTransitionStart);
         ctx.node.removeEventListener("transitioncancel", onTransitionCancel);
         ctx.node.removeEventListener("transitionend", onTransitionEnd);
 
@@ -126,7 +126,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
         return ctx.onAnimaTransition(ctx.in, ctx.node, ctx.done);
       }
 
-      ctx.node.addEventListener("transitionstart", onTransitionStart, false);
+      ctx.node.addEventListener("transitionrun", onTransitionStart, false);
       ctx.node.addEventListener("transitioncancel", onTransitionCancel, false);
       ctx.node.addEventListener("transitionend", onTransitionEnd, false);
 
