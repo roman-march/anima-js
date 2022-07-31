@@ -1,0 +1,36 @@
+@import "../mixins.scss";
+
+.root {
+  width: 100vw;
+  height: 100vh;
+  opacity: 0;
+
+  @include init {
+    opacity: 0;
+  }
+
+  @include in {
+    opacity: 1;
+    transition: opacity 1s;
+  }
+
+  @include out {
+    opacity: 0;
+    transition: opacity 1s;
+  }
+}
+
+.list {
+  li {
+    transition: opacity 1s;
+
+    @include in {
+      opacity: 1;
+    }
+
+    @include out {
+      opacity: 0;
+      transition-delay: calc(var(--delay) * 1s);
+    }
+  }
+}

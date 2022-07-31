@@ -18,7 +18,7 @@ export interface IAnimaProps {
   group?: boolean;
   appear?: boolean;
   switch?: boolean;
-  prevent?: boolean;
+  relative?: boolean;
   unmount?: boolean;
   mount?: boolean;
   state?: boolean;
@@ -45,6 +45,10 @@ export interface ITransitionContext {
 
 export interface IAnimaContext {
   inTransition: InPropType;
+}
+
+export interface IAnimaTransitionContext {
+  isRelative?: boolean;
 }
 
 export type ItemType<E extends React.ElementType = React.ElementType> = {

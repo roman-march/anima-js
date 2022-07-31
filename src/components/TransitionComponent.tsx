@@ -1,10 +1,11 @@
 import React from "react";
 import { CSSTransition } from "react-transition-group";
 
-import { AnimaContext } from "./TransitionContext";
+import { AnimaContext, AnimaTransitionContext } from "./TransitionContext";
 import useCombinedRefs from "../useCombinedRefs";
 
 import { IAnimaComponent, IAnimaProps, ITransitionContext } from "../types";
+import { isNone } from "../utils";
 
 const classNames = (state?: boolean, initial?: boolean) => ({
   appear: initial ? "init" : "exit",
@@ -33,9 +34,9 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
     type: Component,
     forwardedRef,
     children,
-    prevent,
     state,
     initial,
+    relative,
     unmount: unmountOnExit,
     mount: mountOnEnter,
     onAnimaTransition,
@@ -45,6 +46,12 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
   } = props;
   const ref = React.useRef(null);
   const combinedRef = useCombinedRefs(forwardedRef, ref);
+
+  const { isRelative: isParentRelative } = React.useContext(
+    AnimaTransitionContext
+  );
+
+  const isRelative = isNone(relative) ? isParentRelative : relative;
 
   const ctx = React.useMemo<ITransitionContext>(
     () => ({
@@ -59,27 +66,36 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
     []
   );
 
-  const onTransitionStart = React.useCallback((event: any) => {
-    if (prevent) stopEvents(event);
+  const onTransitionStart = React.useCallback(
+    (event: any) => {
+      if (!isRelative) stopEvents(event);
 
-    ctx.playing += 1;
-  }, []);
+      ctx.playing += 1;
+    },
+    [isRelative]
+  );
 
-  const onTransitionEnd = React.useCallback((event: any) => {
-    if (prevent) stopEvents(event);
+  const onTransitionEnd = React.useCallback(
+    (event: any) => {
+      if (!isRelative) stopEvents(event);
 
-    ctx.playing -= 1;
+      ctx.playing -= 1;
 
-    if (ctx.playing <= 0) {
-      handleDone(event);
-    }
-  }, []);
+      if (ctx.playing <= 0) {
+        handleDone(event);
+      }
+    },
+    [isRelative]
+  );
 
-  const onTransitionCancel = React.useCallback((event: any) => {
-    if (prevent) stopEvents(event);
+  const onTransitionCancel = React.useCallback(
+    (event: any) => {
+      if (!isRelative) stopEvents(event);
 
-    ctx.playing -= 1;
-  }, []);
+      ctx.playing -= 1;
+    },
+    [isRelative]
+  );
 
   const handleDone = React.useCallback(
     (event: Event) => {
@@ -105,7 +121,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
 
       ctx.done && ctx.done();
     },
-    [prevent]
+    [isRelative]
   );
 
   const handleAddEndListener = React.useCallback(
@@ -134,7 +150,7 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
       ctx.node.addEventListener("animationcancel", onTransitionCancel, false);
       ctx.node.addEventListener("animationend", onTransitionEnd, false);
     },
-    [handleDone]
+    [handleDone, onTransitionEnd, onTransitionStart, onTransitionCancel]
   );
 
   React.useEffect(() => {
@@ -149,21 +165,21 @@ const TransitionComponent: React.FC<IAnimaComponent & IAnimaProps> = (
 
   return (
     <AnimaContext.Provider value={{ inTransition: props.in }}>
-      <CSSTransition
-        {...rest}
-        classNames={classNames(state, initial)}
-        mountOnEnter={mountOnEnter}
-        unmountOnExit={unmountOnExit}
-        addEndListener={handleAddEndListener}
-      >
-        <Component ref={combinedRef}>{children}</Component>
-      </CSSTransition>
+      <AnimaTransitionContext.Provider value={{ isRelative }}>
+        <CSSTransition
+          {...rest}
+          classNames={classNames(state, initial)}
+          mountOnEnter={mountOnEnter}
+          unmountOnExit={unmountOnExit}
+          addEndListener={handleAddEndListener}
+        >
+          <Component ref={combinedRef}>{children}</Component>
+        </CSSTransition>
+      </AnimaTransitionContext.Provider>
     </AnimaContext.Provider>
   );
 };
 
-TransitionComponent.defaultProps = {
-  prevent: true,
-};
+TransitionComponent.defaultProps = {};
 
 export default React.memo(TransitionComponent);

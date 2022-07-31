@@ -1,0 +1,17 @@
+@mixin init {
+  &[class$="init"] {
+    @content;
+  }
+}
+
+@mixin in {
+  &[class$="enter"] {
+    @content;
+  }
+}
+
+@mixin out {
+  &[class$="exit"] {
+    @content;
+  }
+}
